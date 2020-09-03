@@ -1,14 +1,19 @@
 def main():
     inputFile = "declaration.txt"
-    outputFile = ""
+    outputFile = "myOutput.txt"
     dict = {}
+    wordList = []
 
-    fillDict(inputFile, dict)
-    dict = sorted(dict, reverse=True)
-    print(dict)
+    fillDict(inputFile, dict, wordList)
+
+    wordList = sorted(wordList, reverse=True)
+
+    writeToFile(outputFile, dict, wordList)
 
 
-def fillDict(fileName, dict):
+
+
+def fillDict(fileName, dict, wordList):
     try:
         with open(fileName, 'r') as file:
             for item in file:
@@ -24,9 +29,16 @@ def fillDict(fileName, dict):
                     if(line[i] in dict):
                         dict[line[i]] += 1
                     else:
+                        wordList.append(line[i])
                         dict[line[i]] = 1
     except IndexError:
         pass
+
+def writeToFile(outputFile, dict, wordList):
+    #file = open(outputFile, 'w')
+    with open(outputFile, 'w') as file:
+        for i in range(len(wordList)):
+            file.write("%s %d\n" % (wordList[i], dict[wordList[i]]))
 
 
 
